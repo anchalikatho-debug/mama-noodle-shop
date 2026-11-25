@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAMA NOODLE SHOP</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #fff8ed;
+            color: #333;
+        }
+
+        header {
+            background: #e94b27;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        nav {
+            background: #333;
+            padding: 14px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 15px;
+        }
+
+        .banner {
+            text-align: center;
+            padding: 35px 15px;
+            background: #ffe2b8;
+        }
+
+        .banner h2 {
+            color: #d94320;
+            font-size: 28px;
+        }
+
+        .products {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            padding: 30px 15px;
+        }
+
+        .card {
+            background: white;
+            width: 280px;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 3px 12px #ddd;
+        }
+
+        .food {
+            font-size: 85px;
+            background: #fff0dc;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .price {
+            color: #e94b27;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        button {
+            background: #e94b27;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #bd351b;
+        }
+
+        .order {
+            background: white;
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🍜 MAMA NOODLE SHOP</h1>
+    <p>อร่อยง่าย ๆ ส่งตรงถึงบ้าน</p>
+</header>
+
+<nav>
+    <a href="#home">หน้าแรก</a>
+    <a href="#products">สินค้า</a>
+    <a href="#order">สั่งซื้อ</a>
+</nav>
+
+<section class="banner" id="home">
+    <h2>ยินดีต้อนรับสู่ร้าน MAMA NOODLE</h2>
+    <p>บะหมี่กึ่งสำเร็จรูป อร่อย สะดวก ราคาประหยัด</p>
+</section>
+
+<h2 style="text-align:center" id="products">
+    🛒 สินค้าของเรา
+</h2>
+
+<section class="products">
+
+    <div class="card">
+        <div class="food">🍜</div>
+        <h3>บะหมี่รสต้มยำกุ้ง</h3>
+        <p>รหัสสินค้า: SKU001</p>
+        <p class="price">7 บาท</p>
+        <button onclick="addItem('ต้มยำกุ้ง',7)">
+            เพิ่มลงตะกร้า
+        </button>
+    </div>
+
+    <div class="card">
+        <div class="food">🍲</div>
+        <h3>บะหมี่รสหมูสับ</h3>
+        <p>รหัสสินค้า: SKU002</p>
+        <p class="price">7 บาท</p>
+        <button onclick="addItem('หมูสับ',7)">
+            เพิ่มลงตะกร้า
+        </button>
+    </div>
+
+</section>
+
+<section class="order" id="order">
+    <h2>🛍️ รายการสั่งซื้อ</h2>
+
+    <div id="cart">ยังไม่มีสินค้าในตะกร้า</div>
+
+    <h3>ยอดรวม: <span id="total">0</span> บาท</h3>
+
+    <hr>
+
+    <h2>ข้อมูลผู้สั่งซื้อ</h2>
+
+    <form onsubmit="submitOrder(event)">
+        <label>ชื่อผู้รับ</label>
+        <input id="customer" required placeholder="กรอกชื่อ-นามสกุล">
+
+        <label>เบอร์โทรศัพท์</label>
+        <input id="phone" required placeholder="กรอกเบอร์โทรศัพท์">
+
+        <label>ที่อยู่จัดส่ง</label>
+        <input id="address" required placeholder="กรอกที่อยู่จัดส่ง">
+
+        <button type="submit">ยืนยันคำสั่งซื้อ</button>
+    </form>
+</section>
+
+<footer>
+    <p>© 2026 MAMA NOODLE SHOP</p>
+    <p>ขอบคุณที่อุดหนุนร้านของเรา ❤️</p>
+</footer>
+
+<script>
+    let cart = {};
+
+    function addItem(name, price) {
+        if (!cart[name]) {
+            cart[name] = {
+                price: price,
+                quantity: 0
+            };
+        }
+
+        cart[name].quantity++;
+        updateCart();
+    }
+
+    function updateCart() {
+        let total = 0;
+        let html = "";
+
+        for (let name in cart) {
+            let item = cart[name];
+            let subtotal = item.price * item.quantity;
+            total += subtotal;
+
+            html += `<p>${name} จำนวน ${item.quantity} ชิ้น
+            = ${subtotal} บาท</p>`;
+        }
+
+        document.getElementById("cart").innerHTML =
+            html || "ยังไม่มีสินค้าในตะกร้า";
+
+        document.getElementById("total").textContent = total;
+    }
+
+    function submitOrder(event) {
+        event.preventDefault();
+
+        if (Object.keys(cart).length === 0) {
+            alert("กรุณาเลือกสินค้าก่อนค่ะ");
+            return;
+        }
+
+        alert("รับคำสั่งซื้อเรียบร้อยแล้ว! (ตัวอย่างระบบ)");
+
+        cart = {};
+        updateCart();
+        event.target.reset();
+    }
+</script>
+
+</body>
+</html>
